@@ -2,4 +2,3 @@
 整合项目：https://github.com/zeek/zeek-docker 与 https://github.com/xuqinghan/docker-kafka 添加自动化脚本。基于docker，实现使用zeek解析pcap包并以json格式发送给kafka队列的一个小demo
 
 
-gayhub抽风push不了，下载请转到gitee：https://gitee.com/daycen/pykafka_zeek_with_docker
