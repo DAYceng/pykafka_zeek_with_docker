@@ -1,0 +1,46 @@
+version: '3.1'
+
+services:
+  zoo:
+    image: zookeeper
+    restart: always
+    hostname: zookeeper
+    volumes:
+      #- zookeeper/conf:/conf
+      - ./zookeeper/data:/data
+      - ./zookeeper/datalog:/datalog
+
+  kafka:
+    build: kafka/
+    restart: always
+    volumes:
+      - ./kafka/config:/kafka/config
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zoo
+
+  producer:
+    stdin_open: true
+    tty: true
+    restart: always
+    build: ./app
+    volumes:
+      - ./app:/app
+      - ./pcap:/pcap
+    depends_on:
+      - zoo
+      - kafka
+    command: ['python3', 'producer.py', "/pcap"]
+
+  consumer:
+    stdin_open: true
+    tty: true
+    build: ./app
+    restart: always
+    volumes:
+      - ./app:/app
+    depends_on:
+      - zoo
+      - kafka
+    command: ['python3', 'consumer.py']

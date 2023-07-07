@@ -1,0 +1,19 @@
+FROM python
+LABEL author="xuqinghan"
+LABEL purpose = 'kafka'
+
+
+# Add custom china source，ADD可将本地文件添加到镜像中，类似于具有root权限的cp命令
+ADD sources.list /etc/apt/ 
+RUN apt update
+#RUN apt install -y nginx supervisor
+RUN pip3 install setuptools
+RUN pip3 install kafka-python
+
+ENV PYTHONIOENCODING=utf-8
+
+RUN mkdir -p /app
+WORKDIR /app
+
+
+CMD ["/bin/bash"]

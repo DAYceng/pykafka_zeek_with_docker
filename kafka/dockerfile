@@ -1,0 +1,19 @@
+FROM java:openjdk-8-jre
+LABEL author="xuqinghan"
+LABEL purpose = 'kafka'
+
+# Add custom china source，ADD可将本地文件添加到镜像中，类似于具有root权限的cp命令
+ADD sources.list /etc/apt/ 
+# ENV DEBIAN_FRONTEND noninteractive
+# RUN wget http://ftp-master.debian.org/archive-key-5.0.asc
+# RUN apt-key add archive-key-5.0.asc
+# RUN apt-get update && \
+#     apt-get install -y wget
+
+# RUN wget -q https://mirrors.tuna.tsinghua.edu.cn/apache/kafka/2.7.0/kafka_2.13-2.7.0.tgz
+ADD kafka_2.13-3.0.0.tgz /home
+# RUN tar -xzf kafka_2.13-2.7.0.tgz -C /home
+RUN mv /home/kafka_2.13-3.0.0 /kafka
+WORKDIR /kafka
+#CMD ["/bin/bash"]
+CMD ["/kafka/bin/kafka-server-start.sh", "/kafka/config/server.properties"]
